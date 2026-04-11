@@ -5,6 +5,7 @@
 #ifndef RIGIDBODY_H
 #define RIGIDBODY_H
 #include <raylib.h>
+#include <raymath.h>
 
 namespace Physics {
 
@@ -21,7 +22,7 @@ struct State {
 /// @brief A simulated rigid body that integrates forces over time.
 class Rigidbody {
 public:
-    Rigidbody(float mass) :
+    explicit Rigidbody(float mass) :
     m_mass {mass}
     {};
 
@@ -29,7 +30,7 @@ public:
     void applyForce(Vector2 force, Vector2 point);
 
     /// Apply a force directly to the center of the RigidBody
-    void applyForceToCenter(Vector2 force, Vector2 point);
+    void applyForceToCenter(Vector2 force);
 
     /// Apply an impulse (sudden change in velocity) to a specified point on the RigidBody in world coordinate system.
     void applyLinearImpulse(Vector2 linearImpulse, Vector2 point);
@@ -72,8 +73,9 @@ public:
 private:
     State m_state; ///< Current kinematic state
     double m_mass {}; ///< Mass in kilograms
+    double m_momentOfInertia {}; ///< Moment of inertia in kilogram metre squared
     Vector2 m_forceAccum {}; ///< Accumulated forces this tick in Newtons
-    float m_angularVelAccum {}; ///< Accumulated torque this tick in Newton-metres
+    float m_torqueAccum {}; ///< Accumulated torque this tick in Newton-metres
 };
 
 } // Physics
