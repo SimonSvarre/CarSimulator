@@ -3,7 +3,9 @@ project(CarSimulator)
 
 set(CMAKE_TOOLCHAIN_FILE "/opt/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
 
-add_executable(CarSimulator src/main.cpp)
+add_executable(CarSimulator src/main.cpp
+        src/physics/Rigidbody.cpp
+        src/physics/Rigidbody.h)
 
 find_package(raylib CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
