@@ -5,7 +5,8 @@ set(CMAKE_TOOLCHAIN_FILE "/opt/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STR
 
 add_executable(CarSimulator src/main.cpp
         src/physics/Rigidbody.cpp
-        src/physics/Rigidbody.h)
+        src/physics/Rigidbody.h
+        src/physics/PhysicsMath.h)
 
 find_package(raylib CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)

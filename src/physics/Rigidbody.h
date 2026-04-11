@@ -14,9 +14,9 @@ struct State {
     Vector2 position {0, 0};
     Vector2 velocity {0, 0};
     Vector2 acceleration {0, 0};
-    float rotation {0.f};
-    float angularVel {0.f};
-    float angularAccel {0.f};
+    float rotation {0.f}; ///< Angle in radians
+    float angularVel {0.f}; ///< Change in rotation per second in radians per second
+    float angularAccel {0.f}; ///< Change in angular velocity per second in radians per second squared
 };
 
 /// @brief A simulated rigid body that integrates forces over time.
@@ -73,6 +73,7 @@ public:
 private:
     State m_state; ///< Current kinematic state
     double m_mass {}; ///< Mass in kilograms
+    Vector2 m_centerOfMass {0,0}; ///< Position of center of mass relative to the center
     double m_momentOfInertia {}; ///< Moment of inertia in kilogram metre squared
     Vector2 m_forceAccum {}; ///< Accumulated forces this tick in Newtons
     float m_torqueAccum {}; ///< Accumulated torque this tick in Newton-metres
