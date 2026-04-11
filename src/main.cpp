@@ -1,5 +1,7 @@
 #include <iostream>
 #include "raylib.h"
+#include "rendering/CarRenderer.h"
+#include "simulation/car/Car.h"
 
 int main() {
     // Initialization
@@ -10,6 +12,9 @@ int main() {
     InitWindow(SCREENWIDTH, SCREENHEIGHT, "Car Simulator");
 
     SetTargetFPS(60);
+
+    Simulation::Car car {1000};
+    Rendering::CarRenderer carRenderer {};
     //--------------------------------------------------------------------------------------
 
     // Main game loop
@@ -25,7 +30,7 @@ int main() {
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
-
+        carRenderer.draw(car.getPhysicsState());
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
