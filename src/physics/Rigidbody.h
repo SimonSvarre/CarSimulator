@@ -23,7 +23,8 @@ struct State {
 class Rigidbody {
 public:
     explicit Rigidbody(float mass) :
-    m_mass {mass}
+    m_mass {mass},
+    m_momentOfInertia {m_momentOfInertia}
     {};
 
     /// Apply a force to the point specified on the RigidBody, this point is a point in the world coordinate system
@@ -69,12 +70,14 @@ public:
     Vector2 getWorldPoint(Vector2 localPoint) const;
 
     const State& getState() const { return m_state; }
+    float getMass()             const { return m_mass; }
+    float getMomentOfInertia()  const { return m_momentOfInertia; }
 
 private:
     State m_state; ///< Current kinematic state
-    double m_mass {}; ///< Mass in kilograms
+    float m_mass {}; ///< Mass in kilograms
     Vector2 m_centerOfMass {0,0}; ///< Position of center of mass relative to the center
-    double m_momentOfInertia {}; ///< Moment of inertia in kilogram metre squared
+    float m_momentOfInertia {}; ///< Moment of inertia in kilogram metre squared
     Vector2 m_forceAccum {}; ///< Accumulated forces this tick in Newtons
     float m_torqueAccum {}; ///< Accumulated torque this tick in Newton-metres
 };
