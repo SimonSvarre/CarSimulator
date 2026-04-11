@@ -19,20 +19,13 @@ namespace Physics {
     }
 
     void Rigidbody::applyLinearImpulse(Vector2 linearImpulse, Vector2 point) {
-        // Directly modify linear velocity — no dt involved
-        m_state.velocity.x += linearImpulse.x / m_mass;
-        m_state.velocity.y += linearImpulse.y / m_mass;
+        m_state.velocity += linearImpulse / m_mass;
 
-        // Impulse at a point also produces an angular impulse
-        Vector2 offset = {
-            point.x - m_state.position.x,
-            point.y - m_state.position.y
-        };
+        Vector2 offset = getLocalPoint(point) - m_centerOfMass;
         m_state.angularVel += cross2D(offset, linearImpulse) / m_momentOfInertia;
     }
 
     void Rigidbody::applyTorque(float torque) {
-        // Accumulate — gets integrated in step()
         m_torqueAccum += torque;
     }
 
@@ -43,11 +36,9 @@ namespace Physics {
 
     void Rigidbody::step(float dt) {
         // Linear — integrate force into velocity, velocity into position
-        m_state.velocity.x += (m_forceAccum.x / m_mass) * dt;
-        m_state.velocity.y += (m_forceAccum.y / m_mass) * dt;
+        m_state.velocity += (m_forceAccum / m_mass) * dt;
 
-        m_state.position.x += m_state.velocity.x * dt;
-        m_state.position.y += m_state.velocity.y * dt;
+        m_state.position += m_state.velocity * dt;
 
         // Angular — integrate torque into angular velocity, angular velocity into rotation
         m_state.angularVel  += (m_torqueAccum / m_mass) * dt;
@@ -56,5 +47,45 @@ namespace Physics {
         // Clear accumulators for next tick
         m_forceAccum   = {0.f, 0.f};
         m_torqueAccum  = 0.f;
+    }
+
+    Vector2 Rigidbody::getLinearVelocityFromWorldPoint(Vector2 worldPoint) const {
+        Vector2 offset {getLocalPoint(worldPoint)};
+        return {
+            m_state.velocity.x - m_state.angularVel * offset.y,
+            m_state.velocity.y + m_state.angularVel * offset.x
+        };
+    }
+
+    Vector2 Rigidbody::getAngularVelocityFromWorldPoint(Vector2 worldPoint) const {
+        Vector2 offset {getLocalPoint(worldPoint)};
+        return {
+            -m_state.angularVel * offset.y,
+             m_state.angularVel * offset.x
+        };
+
+    }
+
+    Vector2 Rigidbody::getWorldVector(Vector2 localVector) const {
+        return {
+            localVector.x * cosf(m_state.rotation) - localVector.y * sinf(m_state.rotation),
+            localVector.x * sinf(m_state.rotation) + localVector.y * cosf(m_state.rotation)
+        };
+    }
+
+    Vector2 Rigidbody::getLocalVector(Vector2 worldVector) const {
+        return {
+            worldVector.x * cosf(m_state.rotation) + worldVector.y * sinf(m_state.rotation),
+           -worldVector.x * sinf(m_state.rotation) + worldVector.y * cosf(m_state.rotation)
+       };
+    }
+
+    Vector2 Rigidbody::getLocalPoint(Vector2 worldPoint) const {
+        return getLocalVector(worldPoint - m_state.position);
+    }
+
+    Vector2 Rigidbody::getWorldPoint(Vector2 localPoint) const {
+        Vector2 rotated { getWorldVector(localPoint) };
+        return {rotated + m_state.position};
     }
 } // Physics

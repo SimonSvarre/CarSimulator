@@ -51,22 +51,22 @@ public:
     void step(float dt);
 
     /// Gets the velocity of RigidBody at a certain point in world coordinates
-    Vector2 getLinearVelocityFromWorldPoint(Vector2 worldPoint);
+    Vector2 getLinearVelocityFromWorldPoint(Vector2 worldPoint) const;
 
     /// Gets the angular velocity of RigidBody at a certain point in world coordinates
-    Vector2 getAngularVelocityFromWorldPoint(Vector2 worldPoint);
+    Vector2 getAngularVelocityFromWorldPoint(Vector2 worldPoint) const;
 
     /// Gets world vector from local vector
-    Vector2 getWorldVector(Vector2 localVector);
+    Vector2 getWorldVector(Vector2 localVector) const;
 
     /// Gets local vector from world vector
-    Vector2 getLocalVector(Vector2 worldVector);
+    Vector2 getLocalVector(Vector2 worldVector) const;
 
     /// Gets local coordinate from world coordinate
-    Vector2 getLocalPoint(Vector2 worldPoint);
+    Vector2 getLocalPoint(Vector2 worldPoint) const;
 
     /// Gets world coordinate from local coordinate
-    Vector2 getWorldPoint(Vector2 localPoint);
+    Vector2 getWorldPoint(Vector2 localPoint) const;
 
     const State& getState() const { return m_state; }
 
