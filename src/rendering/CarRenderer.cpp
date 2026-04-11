@@ -10,14 +10,14 @@ namespace  Rendering {
         DrawRectanglePro(
             { state.position.x, state.position.y, 40.f, 20.f },
             { 20.f, 10.f },
-            state.rotation * RAD2DEG,
+            state.rotation * RAD2DEG + 90.0f,
             DARKGRAY
         );
 
         // Direction indicator so you can see which way it's facing
         Vector2 front {
-            state.position.x + cosf(state.rotation) * 25.f,
-            state.position.y + sinf(state.rotation) * 25.f
+            state.position.x + cosf(state.rotation + PI/2.f) * 25.f,
+            state.position.y + sinf(state.rotation + PI/2.f) * 25.f
         };
         DrawLineV(state.position, front, RED);
     }

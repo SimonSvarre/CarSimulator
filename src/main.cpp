@@ -1,5 +1,6 @@
 #include <iostream>
 #include "raylib.h"
+#include "physics/PhysicsWorld.h"
 #include "rendering/CarRenderer.h"
 #include "simulation/car/Car.h"
 
@@ -13,7 +14,10 @@ int main() {
 
     SetTargetFPS(60);
 
+    Physics::PhysicsWorld physicsWorld {};
+
     Simulation::Car car {1000};
+    physicsWorld.addRigidbody(car.getRigidbody());
     Rendering::CarRenderer carRenderer {};
     //--------------------------------------------------------------------------------------
 
@@ -22,7 +26,14 @@ int main() {
     {
         // Update
         //----------------------------------------------------------------------------------
-        // TODO: Update your variables here
+        float deltaTime = GetFrameTime();
+
+        if (IsKeyDown(KEY_W)) car.accelerate(1.f);
+        if (IsKeyDown(KEY_S)) car.accelerate(-1.f);
+        if (IsKeyDown(KEY_A)) car.turn(-1.f);
+        if (IsKeyDown(KEY_D)) car.turn(1.f);
+
+        physicsWorld.step(deltaTime);
         //----------------------------------------------------------------------------------
 
         // Draw

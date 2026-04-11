@@ -14,7 +14,9 @@ add_executable(CarSimulator src/main.cpp
         src/simulation/car/Car.cpp
         src/simulation/car/Car.h
         src/simulation/car/Wheel.cpp
-        src/simulation/car/Wheel.h)
+        src/simulation/car/Wheel.h
+        src/physics/PhysicsWorld.cpp
+        src/physics/PhysicsWorld.h)
 
 find_package(raylib CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
