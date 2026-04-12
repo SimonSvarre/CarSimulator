@@ -4,8 +4,11 @@
 
 #ifndef RIGIDBODY_H
 #define RIGIDBODY_H
+#include <memory>
 #include <raylib.h>
 #include <raymath.h>
+
+#include "CollisionShapes/CollisionShape.h"
 
 namespace Physics {
 
@@ -22,9 +25,10 @@ struct State {
 /// @brief A simulated rigid body that integrates forces over time.
 class Rigidbody {
 public:
-    explicit Rigidbody(float mass) :
+    explicit Rigidbody(float mass, bool isKinematic = true) :
     m_mass {mass},
-    m_momentOfInertia {m_momentOfInertia}
+    m_momentOfInertia {mass}, // TODO: THIS MOMENT OF INERTIA SHOULD ACTUALLY BE CALCULATED
+    m_isKinematic {isKinematic}
     {};
 
     /// Apply a force to the point specified on the RigidBody, this point is a point in the world coordinate system
@@ -41,6 +45,7 @@ public:
 
     /// Apply an impulse to the rotation, updating the angular velocity directly
     void applyAngularImpulse(float angularImpulse);
+
 
     /// @brief Advances the simulation by one timestep.
     ///
@@ -72,6 +77,9 @@ public:
     const State& getState() const { return m_state; }
     float getMass()             const { return m_mass; }
     float getMomentOfInertia()  const { return m_momentOfInertia; }
+    void setCollisionShape(std::unique_ptr<CollisionShape> shape) {
+        m_shape = std::move(shape);
+    }
 
 private:
     State m_state; ///< Current kinematic state
@@ -80,6 +88,10 @@ private:
     float m_momentOfInertia {}; ///< Moment of inertia in kilogram metre squared
     Vector2 m_forceAccum {}; ///< Accumulated forces this tick in Newtons
     float m_torqueAccum {}; ///< Accumulated torque this tick in Newton-metres
+
+    std::unique_ptr<CollisionShape> m_shape {nullptr};
+
+    bool m_isKinematic {true}; ///< Boolean for whether the rigidbody can move
 };
 
 } // Physics

@@ -34,7 +34,9 @@ namespace Physics {
         m_state.angularVel += angularImpulse / m_momentOfInertia;
     }
 
-    void Rigidbody::step(float dt) {
+    void Rigidbody::step(const float dt) {
+        if (!m_isKinematic) {return;}
+
         // Linear — integrate force into velocity, velocity into position
         m_state.velocity += (m_forceAccum / m_mass) * dt;
 
