@@ -75,6 +75,7 @@ public:
     Vector2 getWorldPoint(Vector2 localPoint) const;
 
     [[nodiscard]] const State& getState() const { return m_state; }
+    State& getStateMutable() { return m_state; } /// Getter for mutating state
     float getMass()             const { return m_mass; }
     float getMomentOfInertia()  const { return m_momentOfInertia; }
     [[nodiscard]] const CollisionShape* getShape() const { return m_shape.get(); }

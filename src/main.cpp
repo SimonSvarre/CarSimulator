@@ -1,6 +1,7 @@
 #include <iostream>
 #include "raylib.h"
 #include "physics/PhysicsWorld.h"
+#include "physics/CollisionShapes/CollisionShapeRectangle.h"
 #include "rendering/CarRenderer.h"
 #include "simulation/car/Car.h"
 
@@ -18,7 +19,10 @@ int main() {
 
     Simulation::Car car {1000};
     physicsWorld.addRigidbody(car.getRigidbody());
+    car.getRigidbody()->setCollisionShape(std::make_unique<Physics::CollisionShapeRectangle>(20.0f, 40.0f));
     Rendering::CarRenderer carRenderer {};
+
+
     //--------------------------------------------------------------------------------------
 
     // Main game loop

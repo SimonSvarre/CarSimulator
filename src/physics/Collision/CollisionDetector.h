@@ -25,7 +25,7 @@ private:
     static CollisionManifold testRectRect    (const CollisionShape* a, const CollisionShape* b);
     static CollisionManifold testCircleRect  (const CollisionShape* circle, const CollisionShape* rect);
 
-    static float projectRect(const CollisionShapeRectangle* rect, Vector2 axis)
+    static float projectRect(const CollisionShapeRectangle* rect, Vector2 axis);
 };
 
 } // Physics

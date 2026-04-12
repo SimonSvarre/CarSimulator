@@ -14,6 +14,7 @@ namespace Physics {
 
         AABB getAABB() const override;
         Vector2 getCenter() const override {return m_center;}
+        void setCenter(Vector2 newCenter) {m_center = newCenter;}
         float getRadius() const {return m_radius;}
 
     private:

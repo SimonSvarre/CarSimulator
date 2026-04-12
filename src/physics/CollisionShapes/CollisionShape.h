@@ -21,6 +21,12 @@ namespace Physics {
         virtual AABB      getAABB()     const = 0;
         virtual ShapeType getType()     const = 0;
         virtual Vector2   getCenter()   const = 0;
+        virtual void setCenter(Vector2 center) = 0;
+        float getRotation() const {return m_rotation;}
+        void setRotation(float angle) {m_rotation = angle;};
+
+    protected:
+        float m_rotation {0};
     };
 
 } // namespace Physics

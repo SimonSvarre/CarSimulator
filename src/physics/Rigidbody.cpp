@@ -49,6 +49,10 @@ namespace Physics {
         // Clear accumulators for next tick
         m_forceAccum   = {0.f, 0.f};
         m_torqueAccum  = 0.f;
+
+        // Update shape rotation
+        m_shape->setRotation(m_state.rotation);
+        m_shape->setCenter(m_state.position);
     }
 
     Vector2 Rigidbody::getLinearVelocityFromWorldPoint(Vector2 worldPoint) const {

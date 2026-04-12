@@ -11,19 +11,18 @@ namespace Physics {
 
     class CollisionShapeRectangle : public CollisionShape {
     public:
-        CollisionShapeRectangle(Vector2 center, float width, float height)
-            : m_center{center}, m_halfWidth{width / 2.f}, m_halfHeight{height / 2.f} {}
+        CollisionShapeRectangle(float width, float height)
+            : m_center{0,0}, m_halfWidth{width / 2.f}, m_halfHeight{height / 2.f} {}
 
         AABB      getAABB()      const override;
         ShapeType getType()      const override { return ShapeType::Rectangle; }
         Vector2   getCenter()    const override { return m_center; }
+        void setCenter(Vector2 newCenter) {m_center = newCenter;} // Er det måske fjollet at både rigidbody og shape holder position og sådan
         float     getHalfWidth() const          { return m_halfWidth; }
         float     getHalfHeight()const          { return m_halfHeight; }
-        float getRotation() const {return m_rotation;}
 
     private:
         Vector2 m_center     {};
-        float m_rotation {};
         float   m_halfWidth  {};
         float   m_halfHeight {};
     };

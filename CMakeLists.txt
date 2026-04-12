@@ -24,7 +24,9 @@ add_executable(CarSimulator src/main.cpp
         src/physics/Collision/CollisionDetector.cpp
         src/physics/Collision/CollisionDetector.h
         src/physics/Collision/CollisionResolver.cpp
-        src/physics/Collision/CollisionResolver.h)
+        src/physics/Collision/CollisionResolver.h
+        src/rendering/RectangleRenderer.cpp
+        src/rendering/RectangleRenderer.h)
 
 find_package(raylib CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
