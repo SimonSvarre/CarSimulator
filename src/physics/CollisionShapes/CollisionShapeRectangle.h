@@ -19,9 +19,11 @@ namespace Physics {
         Vector2   getCenter()    const override { return m_center; }
         float     getHalfWidth() const          { return m_halfWidth; }
         float     getHalfHeight()const          { return m_halfHeight; }
+        float getRotation() const {return m_rotation;}
 
     private:
         Vector2 m_center     {};
+        float m_rotation {};
         float   m_halfWidth  {};
         float   m_halfHeight {};
     };

@@ -5,4 +5,6 @@
 #include "CollisionResolver.h"
 
 namespace Physics {
+    void CollisionResolver::resolve(Rigidbody *a, Rigidbody *b, const CollisionManifold &manifold) {
+    }
 } // Physics

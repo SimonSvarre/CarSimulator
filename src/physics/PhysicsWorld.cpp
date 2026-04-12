@@ -18,6 +18,9 @@ namespace Physics {
                 Rigidbody* a = m_rigidbodies[i];
                 Rigidbody* b = m_rigidbodies[j];
 
+                if (!a->getShape() || !b->getShape())
+                    continue;
+
                 if (!CollisionDetector::aabbOverlap(
                     a->getShape()->getAABB(),
                     b->getShape()->getAABB()))

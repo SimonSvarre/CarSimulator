@@ -13,6 +13,8 @@ namespace Physics {
             : m_center{center}, m_radius{radius} {}
 
         AABB getAABB() const override;
+        Vector2 getCenter() const override {return m_center;}
+        float getRadius() const {return m_radius;}
 
     private:
         Vector2 m_center {};
