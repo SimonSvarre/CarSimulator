@@ -4,6 +4,8 @@
 
 #include "PhysicsWorld.h"
 
+#include <iostream>
+
 #include "Collision/CollisionDetector.h"
 #include "Collision/CollisionResolver.h"
 
@@ -20,7 +22,6 @@ namespace Physics {
 
                 if (!a->getShape() || !b->getShape())
                     continue;
-
                 if (!CollisionDetector::aabbOverlap(
                     a->getShape()->getAABB(),
                     b->getShape()->getAABB()))

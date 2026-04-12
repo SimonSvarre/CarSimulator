@@ -17,7 +17,7 @@ namespace Physics {
         AABB      getAABB()      const override;
         ShapeType getType()      const override { return ShapeType::Rectangle; }
         Vector2   getCenter()    const override { return m_center; }
-        void setCenter(Vector2 newCenter) {m_center = newCenter;} // Er det måske fjollet at både rigidbody og shape holder position og sådan
+        void setCenter(Vector2 newCenter) override {m_center = newCenter;} // Er det måske fjollet at både rigidbody og shape holder position og sådan
         float     getHalfWidth() const          { return m_halfWidth; }
         float     getHalfHeight()const          { return m_halfHeight; }
 

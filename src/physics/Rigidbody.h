@@ -82,6 +82,8 @@ public:
     void setCollisionShape(std::unique_ptr<CollisionShape> shape) {
         m_shape = std::move(shape);
     }
+    void setPosition(Vector2 position) { m_state.position = position; }
+    void setRotation(float rotation) { m_state.rotation = rotation; }
 
 private:
     State m_state; ///< Current kinematic state

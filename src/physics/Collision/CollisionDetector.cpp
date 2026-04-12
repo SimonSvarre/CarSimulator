@@ -6,7 +6,9 @@
 
 #include <algorithm>
 #include <cfloat>
+#include <iostream>
 #include <raymath.h>
+#include <bits/ostream.tcc>
 
 namespace Physics {
     CollisionManifold CollisionDetector::test(const CollisionShape *a, const CollisionShape *b) {
@@ -29,16 +31,9 @@ namespace Physics {
     }
 
     bool CollisionDetector::aabbOverlap(const AABB &a, const AABB &b) {
-        float d1x = b.min.x - a.min.x;
-        float d1y = b.min.y - a.min.y;
-        float d2x = a.min.x - b.min.x;
-        float d2y = a.min.y - b.min.y;
-
-        if (d1x > 0.0f || d1y > 0.0f)
-            return false;
-
-        if (d2x > 0.0f || d2y > 0.0f)
-            return false;
+        // No overlap if one box is completely to the left, right, above or below the other
+        if (a.max.x < b.min.x || b.max.x < a.min.x) return false;
+        if (a.max.y < b.min.y || b.max.y < a.min.y) return false;
 
         return true;
     }
