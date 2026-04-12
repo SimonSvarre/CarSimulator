@@ -74,9 +74,10 @@ public:
     /// Gets world coordinate from local coordinate
     Vector2 getWorldPoint(Vector2 localPoint) const;
 
-    const State& getState() const { return m_state; }
+    [[nodiscard]] const State& getState() const { return m_state; }
     float getMass()             const { return m_mass; }
     float getMomentOfInertia()  const { return m_momentOfInertia; }
+    [[nodiscard]] const CollisionShape* getShape() const { return m_shape.get(); }
     void setCollisionShape(std::unique_ptr<CollisionShape> shape) {
         m_shape = std::move(shape);
     }
