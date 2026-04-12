@@ -6,54 +6,44 @@
 #include "../PhysicsMath.h"
 
 namespace Physics {
-    void CollisionResolver::resolve(Rigidbody *a, Rigidbody *b, const CollisionManifold &manifold) {
-        // --- Step 1: Positional correction ---
-    // Push bodies apart so they are no longer penetrating
-    const float correction { manifold.depth / (a->getMass() + b->getMass()) * 0.8f };
-    a->getStateMutable().position -= manifold.normal * (correction * b->getMass());
-    b->getStateMutable().position += manifold.normal * (correction * a->getMass());
+    void CollisionResolver::resolve(Rigidbody* a, Rigidbody* b, const CollisionManifold& manifold) {
+        float invMassA { a->isStatic() ? 0.f : 1.f / a->getMass() };
+        float invMassB { b->isStatic() ? 0.f : 1.f / b->getMass() };
 
-    // --- Step 2: Impulse resolution ---
-    // Velocity of each body at the contact point
-    Vector2 velA { a->getLinearVelocityFromWorldPoint(manifold.contactPoint) };
-    Vector2 velB { b->getLinearVelocityFromWorldPoint(manifold.contactPoint) };
+        float invMoIA  { a->isStatic() ? 0.f : 1.f / a->getMomentOfInertia() };
+        float invMoIB  { b->isStatic() ? 0.f : 1.f / b->getMomentOfInertia() };
 
-    // Relative velocity along the normal
-    Vector2 relVel { velB.x - velA.x, velB.y - velA.y };
-    float   relVelAlongNormal { Vector2DotProduct(relVel, manifold.normal) };
+        // Positional correction
+        const float correction { manifold.depth / (invMassA + invMassB) * 0.8f };
+        if (!a->isStatic()) a->setPosition(a->getState().position - manifold.normal * (correction * invMassA));
+        if (!b->isStatic()) b->setPosition(b->getState().position + manifold.normal * (correction * invMassB));
 
-    // Bodies are already separating — no impulse needed
-    if (relVelAlongNormal > 0.f)
-        return;
+        // Relative velocity
+        Vector2 velA { a->getLinearVelocityFromWorldPoint(manifold.contactPoint) };
+        Vector2 velB { b->getLinearVelocityFromWorldPoint(manifold.contactPoint) };
+        Vector2 relVel { velB.x - velA.x, velB.y - velA.y };
+        float relVelAlongNormal { Vector2DotProduct(relVel, manifold.normal) };
 
-    // Vectors from center of mass to contact point
-    Vector2 rA {
-        manifold.contactPoint.x - a->getState().position.x,
-        manifold.contactPoint.y - a->getState().position.y
-    };
-    Vector2 rB {
-        manifold.contactPoint.x - b->getState().position.x,
-        manifold.contactPoint.y - b->getState().position.y
-    };
+        if (relVelAlongNormal > 0.f) return;
 
-    // Cross products for rotational contribution
-    float rACrossN { cross2D(rA, manifold.normal) };
-    float rBCrossN { cross2D(rB, manifold.normal) };
+        Vector2 rA { manifold.contactPoint.x - a->getState().position.x,
+                     manifold.contactPoint.y - a->getState().position.y };
+        Vector2 rB { manifold.contactPoint.x - b->getState().position.x,
+                     manifold.contactPoint.y - b->getState().position.y };
 
-    // Effective inverse mass — accounts for both linear and rotational inertia
-    float invMassSum {
-        (1.f / a->getMass()) + (1.f / b->getMass())
-        + (rACrossN * rACrossN) / a->getMomentOfInertia()
-        + (rBCrossN * rBCrossN) / b->getMomentOfInertia()
-    };
+        float rACrossN { cross2D(rA, manifold.normal) };
+        float rBCrossN { cross2D(rB, manifold.normal) };
 
-    // Impulse scalar
-    float j { -(1.f + RESTITUTION) * relVelAlongNormal / invMassSum };
+        float invMassSum {
+            invMassA + invMassB
+            + (rACrossN * rACrossN) * invMoIA
+            + (rBCrossN * rBCrossN) * invMoIB
+        };
 
-    Vector2 impulse { manifold.normal.x * j, manifold.normal.y * j };
+        float j { -(1.f + RESTITUTION) * relVelAlongNormal / invMassSum };
+        Vector2 impulse { manifold.normal.x * j, manifold.normal.y * j };
 
-    // Apply impulse — equal and opposite to each body
-    a->applyLinearImpulse({ -impulse.x, -impulse.y }, manifold.contactPoint);
-    b->applyLinearImpulse({  impulse.x,  impulse.y }, manifold.contactPoint);
+        if (!a->isStatic()) a->applyLinearImpulse({ -impulse.x, -impulse.y }, manifold.contactPoint);
+        if (!b->isStatic()) b->applyLinearImpulse({  impulse.x,  impulse.y }, manifold.contactPoint);
     }
-} // Physics
+}

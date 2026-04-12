@@ -5,6 +5,8 @@
 #include "Rigidbody.h"
 
 #include "PhysicsMath.h"
+#include "CollisionShapes/CollisionShapeCircle.h"
+#include "CollisionShapes/CollisionShapeRectangle.h"
 
 namespace Physics {
     void Rigidbody::applyForce(const Vector2 force, const Vector2 point) {
@@ -35,7 +37,12 @@ namespace Physics {
     }
 
     void Rigidbody::step(const float dt) {
-        if (!m_isKinematic) {return;}
+        if (!m_isKinematic) {
+            // Update shape rotation
+            m_shape->setRotation(m_state.rotation);
+            m_shape->setCenter(m_state.position);
+            return;
+        }
 
         // Linear — integrate force into velocity, velocity into position
         m_state.velocity += (m_forceAccum / m_mass) * dt;
@@ -93,5 +100,21 @@ namespace Physics {
     Vector2 Rigidbody::getWorldPoint(Vector2 localPoint) const {
         Vector2 rotated { getWorldVector(localPoint) };
         return {rotated + m_state.position};
+    }
+
+    void Rigidbody::setCollisionShape(std::unique_ptr<CollisionShape> shape) {
+        m_shape = std::move(shape);
+
+        // Recalculate moment of inertia based on shape
+        if (m_shape->getType() == ShapeType::Rectangle) {
+            const auto* rect = dynamic_cast<const CollisionShapeRectangle*>(m_shape.get());
+            float w { rect->getHalfWidth()  * 2.f };
+            float h { rect->getHalfHeight() * 2.f };
+            m_momentOfInertia = MomentOfInertia::rectangle(m_mass, w, h);
+        }
+        else if (m_shape->getType() == ShapeType::Circle) {
+            const auto* circle = dynamic_cast<const CollisionShapeCircle*>(m_shape.get());
+            m_momentOfInertia = MomentOfInertia::solidCircle(m_mass, circle->getRadius());
+        }
     }
 } // Physics

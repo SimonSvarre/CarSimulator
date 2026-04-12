@@ -27,7 +27,7 @@ class Rigidbody {
 public:
     explicit Rigidbody(float mass, bool isKinematic = true) :
     m_mass {mass},
-    m_momentOfInertia {mass}, // TODO: THIS MOMENT OF INERTIA SHOULD ACTUALLY BE CALCULATED
+    m_momentOfInertia {},
     m_isKinematic {isKinematic}
     {};
 
@@ -78,10 +78,9 @@ public:
     State& getStateMutable() { return m_state; } /// Getter for mutating state
     float getMass()             const { return m_mass; }
     float getMomentOfInertia()  const { return m_momentOfInertia; }
+    bool isStatic() const { return !m_isKinematic; }
     [[nodiscard]] const CollisionShape* getShape() const { return m_shape.get(); }
-    void setCollisionShape(std::unique_ptr<CollisionShape> shape) {
-        m_shape = std::move(shape);
-    }
+    void setCollisionShape(std::unique_ptr<CollisionShape> shape);
     void setPosition(Vector2 position) { m_state.position = position; }
     void setRotation(float rotation) { m_state.rotation = rotation; }
 

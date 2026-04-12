@@ -27,9 +27,13 @@ int main() {
     car.getRigidbody()->setCollisionShape(std::make_unique<Physics::CollisionShapeRectangle>(20.0f, 40.0f));
     Rendering::CarRenderer carRenderer {};
 
-    Simulation::Rectangle testKinematicBox {70.0f, 70.0f, 200.0f, 0.0f, {SCREENWIDTH/2.0f, SCREENHEIGHT/2.0f}};
+    Simulation::Rectangle testKinematicBox {70.0f, 70.0f, 500.0f, 0.0f, {SCREENWIDTH/2.0f, SCREENHEIGHT/2.0f}};
     physicsWorld.addRigidbody(testKinematicBox.getRigidbody());
     Rendering::RectangleRenderer rectangleRenderer {70.0f, 70.0f, RED};
+
+    Simulation::Rectangle testStaticRect {100.0f, 20.0f, 200.0f, 0.0f, {SCREENWIDTH/2.0f + 100.0f, SCREENHEIGHT/2.0f}, false};
+    physicsWorld.addRigidbody(testStaticRect.getRigidbody());
+    Rendering::RectangleRenderer testRectRenderer {100.0f, 20.0f, GREEN};
     //--------------------------------------------------------------------------------------
 
     // Main game loop
@@ -54,12 +58,13 @@ int main() {
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
-        carRenderer.draw(car.getPhysicsState());
+
         rectangleRenderer.draw(testKinematicBox.getPhysicsState());
+        testRectRenderer.draw(testStaticRect.getPhysicsState());
+        carRenderer.draw(car.getPhysicsState());
 
         debugDraw.drawAABB(car.getRigidbody());
         debugDraw.drawAABB(testKinematicBox.getRigidbody());
-        debugDraw.drawVelocity(car.getPhysicsState());
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
