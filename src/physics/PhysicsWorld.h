@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "Rigidbody.h"
+#include "surface/Surface.h"
 
 namespace Physics {
 
@@ -24,10 +25,22 @@ public:
         m_rigidbodies.end()
         );
     }
+    void addSurface(Surface* surface) {
+        m_surfaces.emplace_back(surface);
+    }
+    void removeSurface(Surface* surface) {
+        m_surfaces.erase(
+        std::remove(m_surfaces.begin(), m_surfaces.end(), surface),
+        m_surfaces.end()
+        );
+    }
     void step(float dT);
 
 private:
     std::vector<Rigidbody*> m_rigidbodies {};
+    std::vector<Surface*>   m_surfaces;
+
+    void applySurfaceFriction();
 };
 
 } // Physics

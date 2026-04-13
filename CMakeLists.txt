@@ -30,7 +30,10 @@ add_executable(CarSimulator src/main.cpp
         src/simulation/shapes/Rectangle.cpp
         src/simulation/shapes/Rectangle.h
         src/rendering/DebugDraw.cpp
-        src/rendering/DebugDraw.h)
+        src/rendering/DebugDraw.h
+        src/physics/surface/Surface.h
+        src/physics/Material.h
+        src/physics/surface/Surface.cpp)
 
 find_package(raylib CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)

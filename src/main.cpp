@@ -34,6 +34,11 @@ int main() {
     Simulation::Rectangle testStaticRect {100.0f, 20.0f, 200.0f, 0.0f, {SCREENWIDTH/2.0f + 100.0f, SCREENHEIGHT/2.0f}, false};
     physicsWorld.addRigidbody(testStaticRect.getRigidbody());
     Rendering::RectangleRenderer testRectRenderer {100.0f, 20.0f, GREEN};
+
+    Physics::Material asphaltMaterial {1.0f, 0.6f};
+    Physics::Surface asphaltSurface {asphaltMaterial, std::make_unique<Physics::CollisionShapeRectangle>(SCREENWIDTH, SCREENHEIGHT)};
+    asphaltSurface.getShapeMutable()->setCenter({SCREENWIDTH/2.0f, SCREENHEIGHT/2.0f});
+    physicsWorld.addSurface(&asphaltSurface);
     //--------------------------------------------------------------------------------------
 
     // Main game loop

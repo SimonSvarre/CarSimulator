@@ -11,6 +11,8 @@
 
 namespace Physics {
     void PhysicsWorld::step(float dT) {
+        applySurfaceFriction();
+
         for (const auto& rigidbody : m_rigidbodies) {
             rigidbody->step(dT);
         }
@@ -34,6 +36,34 @@ namespace Physics {
 
                 if (manifold.hasCollision)
                     CollisionResolver::resolve(a, b, manifold);
+            }
+        }
+    }
+
+    // TODO: It should probably be made into both static and dynamic seperatly so static is first called after integration
+    // Also right now it only uses the surface friction, not rigidbody.
+    void PhysicsWorld::applySurfaceFriction() {
+        for (Rigidbody* body : m_rigidbodies) {
+            if (body->isStatic()) continue;
+
+            // Find which surface this body is currently on
+            const Material* material { nullptr };
+            for (const Surface* surface : m_surfaces) {
+                if (surface->contains(body->getState().position)) {
+                    material = &surface->getMaterial();
+                    break;
+                }
+            }
+
+            // Apply drag/friction based on surface material
+            if (material) {
+                body->applyForceToCenter({
+                    -body->getState().velocity.x * material->dynamicFriction * body->getMass(),
+                    -body->getState().velocity.y * material->dynamicFriction * body->getMass()
+                });
+
+                // Angular friction — opposes angular velocity
+                // TODO: Not implemented yet
             }
         }
     }
