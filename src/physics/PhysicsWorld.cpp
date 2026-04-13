@@ -63,7 +63,7 @@ namespace Physics {
                 });
 
                 // Angular friction — opposes angular velocity
-                // TODO: Not implemented yet
+                body->applyTorque(-body->getState().angularVel * material->dynamicFriction * 250.0f);
             }
         }
     }
