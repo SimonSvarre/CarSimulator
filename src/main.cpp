@@ -50,11 +50,18 @@ int main() {
 
         float deltaTime = GetFrameTime();
 
-        if (IsKeyDown(KEY_W)) car.accelerate(1.f);
-        if (IsKeyDown(KEY_S)) car.accelerate(-1.f);
+        if (IsKeyDown(KEY_W))
+        {
+            car.setThrottle(1.f);
+        }
+        else
+        {
+            car.setThrottle(0.f);
+        }
         if (IsKeyDown(KEY_A)) car.turn(-1.f);
         if (IsKeyDown(KEY_D)) car.turn(1.f);
 
+        car.step(deltaTime);
         physicsWorld.step(deltaTime);
         //----------------------------------------------------------------------------------
 

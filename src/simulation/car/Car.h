@@ -26,6 +26,9 @@ namespace Simulation {
         [[nodiscard]] const Physics::State& getPhysicsState() const {return m_body.getState();};
         Physics::Rigidbody* getRigidbody() { return &m_body; }
 
+        void step(float dt);
+        void setThrottle(float throttle) {m_throttle = throttle;};
+
         void accelerate(float amount) { // These are only for testing
             // amount is -1.0 to 1.0, negative for reverse
             float engineForce = amount * m_engineForce;
@@ -44,9 +47,11 @@ namespace Simulation {
         Physics::Rigidbody m_body;
         std::array<Wheel, 4> m_wheels {}; ///< Array with wheels of the car where lf = index 0, rf = 1, lr = 2, rr = 3
 
-        float m_engineForce = 50000.f;   // Newtons
-        float m_turnTorque  = 1500.f;   // Newton-metres
-        float m_axleOffset  = 20.f;     // pixels from center to rear axle
+        float m_engineForce = 50000.f;   /// Newtons
+        float m_turnTorque  = 1500.f;   /// Newton-metres
+        float m_axleOffset  = 20.f;     /// pixels from center to rear axle
+
+        float m_throttle = 0.0f; /// How much throttle is being applied from 0 to 1.
     };
 }
 
