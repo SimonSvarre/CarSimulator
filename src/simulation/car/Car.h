@@ -7,9 +7,11 @@
 #include <array>
 #include <raylib.h>
 #include <raymath.h>
+#include "../../math/raylib_vector2_operators.h"
 
 #include "../../physics/Rigidbody.h"
 #include "Wheel.h"
+
 
 namespace Simulation {
 
@@ -29,7 +31,7 @@ namespace Simulation {
             float engineForce = amount * m_engineForce;
 
             Vector2 force {0, 1};
-            force = m_body.getWorldVector(force*engineForce);
+            force = m_body.getWorldVector(Vector2Scale(force, engineForce));
 
             m_body.applyForceToCenter(force);
         }

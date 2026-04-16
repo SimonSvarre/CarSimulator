@@ -6,7 +6,8 @@
 #define RIGIDBODY_H
 #include <memory>
 #include <raylib.h>
-#include <raymath.h>
+#include "raymath.h"
+#include "../math/raylib_vector2_operators.h"
 
 #include "CollisionShapes/CollisionShape.h"
 

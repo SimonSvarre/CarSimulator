@@ -5,6 +5,7 @@
 #ifndef PHYSICSMATH_H
 #define PHYSICSMATH_H
 #include <raylib.h>
+#include "raymath.h"
 
 namespace Physics
 {
