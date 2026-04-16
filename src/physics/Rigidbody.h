@@ -15,9 +15,9 @@ namespace Physics {
 
 /// @brief Holds the current physical state of a rigid body.
 struct State {
-    Vector2 position {0, 0};
-    Vector2 velocity {0, 0};
-    Vector2 acceleration {0, 0};
+    Vector2 position {0, 0}; ///< Positon in world space
+    Vector2 velocity {0, 0}; ///< Velocity in world space
+    Vector2 acceleration {0, 0}; ///< Acceleration in world space
     float rotation {0.f}; ///< Angle in radians
     float angularVel {0.f}; ///< Change in rotation per second in radians per second
     float angularAccel {0.f}; ///< Change in angular velocity per second in radians per second squared

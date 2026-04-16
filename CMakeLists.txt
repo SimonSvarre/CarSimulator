@@ -54,6 +54,7 @@ add_executable(CarSimulator
         src/physics/Material.h
         src/physics/surface/Surface.cpp
         src/math/raylib_vector2_operators.h
+        src/simulation/car/Tire.h
 )
 
 target_link_libraries(CarSimulator PRIVATE raylib)

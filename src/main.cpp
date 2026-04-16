@@ -22,7 +22,7 @@ int main() {
 
     Physics::PhysicsWorld physicsWorld {};
 
-    Simulation::Car car {1000};
+    Simulation::Car car {1000, 20.0f, 40.0f};
     physicsWorld.addRigidbody(car.getRigidbody());
     car.getRigidbody()->setCollisionShape(std::make_unique<Physics::CollisionShapeRectangle>(20.0f, 40.0f));
     Rendering::CarRenderer carRenderer {};
@@ -58,8 +58,14 @@ int main() {
         {
             car.setThrottle(0.f);
         }
-        if (IsKeyDown(KEY_A)) car.turn(-1.f);
-        if (IsKeyDown(KEY_D)) car.turn(1.f);
+        if (IsKeyDown(KEY_A))
+        {
+            car.setSteeringAngle(-35);
+        };
+        if (IsKeyDown(KEY_D))
+        {
+            car.setSteeringAngle(35);
+        };
 
         car.step(deltaTime);
         physicsWorld.step(deltaTime);
@@ -77,6 +83,12 @@ int main() {
 
         debugDraw.drawAABB(car.getRigidbody());
         debugDraw.drawAABB(testKinematicBox.getRigidbody());
+        auto wheels {car.getWheels()};
+        auto wheelForces {car.getLateralForces()};
+        for (int i = 0; i < 4; i++)
+        {
+            debugDraw.drawVector(wheelForces[i], car.getRigidbody()->getWorldPoint(wheels[i].getLocalPosition()));
+        }
         EndDrawing();
         //----------------------------------------------------------------------------------
     }

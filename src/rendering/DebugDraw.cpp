@@ -38,4 +38,8 @@ namespace Rendering {
         DrawCircleV(point, 4.f, YELLOW);
     }
 
+    void DebugDraw::drawVector(Vector2 vector, Vector2 pos) const
+    {
+        DrawLineV(pos, pos + vector, BLUE);
+    }
 } // namespace Rendering
