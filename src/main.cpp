@@ -56,6 +56,10 @@ int main() {
         {
             car.setThrottle(1.f);
         }
+        else if (IsKeyDown(KEY_S)) // This should be changed
+        {
+            car.setThrottle(-0.5f);
+        }
         else
         {
             car.setThrottle(0.f);

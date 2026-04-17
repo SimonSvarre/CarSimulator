@@ -10,7 +10,7 @@
 namespace Physics
 {
 
-inline constexpr float GRAVITY = 9.8f;
+inline constexpr float GRAVITY = 980.0f;
 
 inline float cross2D(Vector2 r, Vector2 f) {
     return r.x * f.y - r.y * f.x;

@@ -40,6 +40,7 @@ namespace Rendering {
 
     void DebugDraw::drawVector(Vector2 vector, Vector2 pos) const
     {
+        if (!enabled) return;
         DrawLineV(pos, pos + vector, BLUE);
     }
 } // namespace Rendering
