@@ -40,20 +40,9 @@ namespace Simulation {
         std::array<Vector2, 4> getLateralForces();
         std::array<Wheel, 4> getWheels() {return m_wheels;};
 
-        void accelerate(float amount) { // These are only for testing
-            // amount is -1.0 to 1.0, negative for reverse
-            float engineForce = amount * m_engineForce;
+        void setPosition(Vector2 position) {m_body.setPosition(position);};
 
-            Vector2 force {0, 1};
-            force = m_body.getWorldVector(Vector2Scale(force, engineForce));
 
-            m_body.applyForceToCenter(force);
-        }
-
-        void turn(float amount) {
-            // amount is -1.0 to 1.0, negative for left
-            m_body.applyTorque(amount * m_turnTorque);
-        }
     private:
         Physics::Rigidbody m_body;
         std::array<Wheel, 4> m_wheels {}; ///< Array with wheels of the car where lf = index 0, rf = 1, lr = 2, rr = 3

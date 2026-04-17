@@ -15,12 +15,17 @@ namespace Simulation {
             if (wheel.isDriven())
             {
                 m_body.applyForce(m_body.getWorldVector(wheel.getTractionForce(m_throttle, m_engineForce)), wheelWorldPos);
+                if (m_body.getWorldVector(wheel.getTractionForce(m_throttle, m_engineForce)).y < 0.0f)
+                {
+                    std::cout<< m_body.getWorldVector(wheel.getTractionForce(m_throttle, m_engineForce)).x << " " << m_body.getWorldVector(wheel.getTractionForce(m_throttle, m_engineForce)).y<< std::endl;
+                }
+
             }
-            Vector2 lateralForce {wheel.getLateralForce(m_body, Physics::GRAVITY * m_body.getMass() / m_wheels.size())};
+            Vector2 lateralForce {wheel.getLateralForce(m_body, Physics::GRAVITY * m_body.getMass() / m_wheels.size() / 1000.0f)};
             Vector2 worldLateralForce = m_body.getWorldVector(lateralForce);
             if (Vector2Length(lateralForce) > 0.0f)
             {
-                std::cout << worldLateralForce.x << ", " << worldLateralForce.y  << std::endl;
+                //std::cout << worldLateralForce.x << ", " << worldLateralForce.y  << std::endl;
                 Vector2 testLateralForce {wheel.getLateralForce(m_body, Physics::GRAVITY * m_body.getMass() / m_wheels.size())};
             }
             m_body.applyForce(worldLateralForce, wheelWorldPos);
@@ -52,7 +57,7 @@ namespace Simulation {
 
         for (std::size_t i = 0; i < m_wheels.size(); ++i)
         {
-            lateralForces[i] = m_body.getWorldVector(m_wheels[i].getLateralForce(m_body, Physics::GRAVITY * m_body.getMass() / m_wheels.size()));
+            lateralForces[i] = m_body.getWorldVector(m_wheels[i].getLateralForce(m_body, Physics::GRAVITY * m_body.getMass() / m_wheels.size()/100000.0f));
         }
 
         return lateralForces;

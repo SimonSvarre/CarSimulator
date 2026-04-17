@@ -10,7 +10,7 @@
 namespace Simulation {
     Vector2 Wheel::getTractionForce(float throttle, float engineForce) const
     {
-        const Vector2 tractionDirection {Vector2Rotate(Vector2{0,1}, m_steerAngle)};
+        const Vector2 tractionDirection {0,1};
         Vector2 tractionForce = tractionDirection * throttle * engineForce; // This should obviously be made more complex at some point
 
         return tractionForce;
@@ -39,7 +39,7 @@ namespace Simulation {
     Vector2 Wheel::getLateralForce(const Physics::Rigidbody& chassis, float Fz) const
     {
         // World heading of this wheel (chassis rotation + steer angle)
-        Vector2 wheelHeading { Vector2Rotate(Vector2One(),chassis.getState().rotation + m_steerAngle)};
+        Vector2 wheelHeading { Vector2Rotate({0, 1}, (chassis.getState().rotation + m_steerAngle)) };
 
         // Velocity of the chassis at this wheel's world position
         Vector2 wheelWorldPos { chassis.getWorldPoint(m_localPosition) };
@@ -48,14 +48,13 @@ namespace Simulation {
         float speed { Vector2Length(wheelVelocity) };
         if (speed < 0.1f) return {0.f, 0.f};  // no meaningful slip at rest
 
-        // Angle between wheel heading and actual velocity direction
-        float slipAngle { Vector2Angle(chassis.getState().velocity, wheelHeading) };
+        float slipAngle { Vector2Angle(wheelHeading, wheelVelocity) };
 
         const float Fy = pacejkaLateralForceMag(Fz, slipAngle);
 
         return {
-            -sinf(m_steerAngle) * Fy,
             cosf(m_steerAngle) * Fy,
+            -sinf(m_steerAngle) * Fy,
         };
     }
 }

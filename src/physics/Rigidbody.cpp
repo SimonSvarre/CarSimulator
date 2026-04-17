@@ -12,7 +12,7 @@ namespace Physics {
     void Rigidbody::applyForce(const Vector2 force, const Vector2 point) {
         m_forceAccum += force;
 
-        const Vector2 offset = getLocalPoint(point) - m_centerOfMass;
+        const Vector2 offset = point - m_state.position;
         m_torqueAccum += cross2D(offset, force);
     }
 
@@ -50,7 +50,7 @@ namespace Physics {
         m_state.position += m_state.velocity * dt;
 
         // Angular — integrate torque into angular velocity, angular velocity into rotation
-        m_state.angularVel  += (m_torqueAccum / m_mass) * dt;
+        m_state.angularVel  += (m_torqueAccum / m_momentOfInertia) * dt;
         m_state.rotation    += m_state.angularVel * dt;
 
         // Clear accumulators for next tick
@@ -63,7 +63,7 @@ namespace Physics {
     }
 
     Vector2 Rigidbody::getLinearVelocityFromWorldPoint(Vector2 worldPoint) const {
-        Vector2 offset {getLocalPoint(worldPoint)};
+        Vector2 offset { worldPoint - m_state.position };
         return {
             m_state.velocity.x - m_state.angularVel * offset.y,
             m_state.velocity.y + m_state.angularVel * offset.x

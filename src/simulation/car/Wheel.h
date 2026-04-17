@@ -29,6 +29,7 @@ namespace Simulation {
         Vector2 getBrakeForce() const;
 
         Vector2 getLocalPosition() const {return m_localPosition;};
+        float getWorldRotation(const Physics::Rigidbody* chassis) const {return RAD2DEG*(chassis->getState().rotation + m_steerAngle);};
 
     private:
         TireCoefficients m_tire {defaultTire};
