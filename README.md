@@ -1,4 +1,4 @@
-# 🚗 CarSimulator
+# CarSimulator
 
 A 2D car physics simulator built with C++ and [raylib](https://www.raylib.com/).
 
@@ -92,7 +92,7 @@ The model is based on this paper from Stanford:
 > H. Pacejka, E. Bakker, L. Nyborg — *Tyre modelling for use in vehicle dynamics studies* (SAE Paper No. 870421)
 > [Reference PDF](http://www-cdr.stanford.edu/dynamic/bywire/tires.pdf)
 
-This means the tires don't just apply a fixed friction force — they model how grip builds up and falls off realistically as the tire slips, which is what makes the car feel physically plausible.
+This means the tires don't just apply a fixed friction force, they model how grip builds up and falls off realistically as the tire slips, which is what makes the car feel physically plausible.
 
 ---
 
