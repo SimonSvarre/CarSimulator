@@ -78,13 +78,13 @@ Then run the executable from the `build/` folder.
 
 ### Custom Physics Engine
 
-The simulation includes a custom-built rigid body physics engine — no third-party physics library is used. It handles:
+The simulation includes a custom built rigidbody physics engine, no third-party physics library is used. It handles:
 
-- Rigid body dynamics (forces, torques, linear & angular velocity)
+- Rigidbody dynamics (forces, torques, linear & angular velocity)
 - Collision detection and resolution between shapes (circles and rectangles)
 - Surface friction and material properties
 
-### Pacejka Tire Model ("Magic Formula")
+### Pacejka Tire Model
 
 Tire forces are calculated using the **Pacejka tire model**, a well-established model used in real vehicle dynamics research. It computes realistic lateral force, longitudinal force, and aligning torque based on slip angle and longitudinal slip.
 
@@ -108,16 +108,3 @@ CarSimulator/
 │   └── simulation/         # Car, wheel, and shape logic
 └── CMakeLists.txt
 ```
-
----
-
-## Troubleshooting
-
-**CMake can't find a compiler**
-Make sure your compiler is installed and on your system PATH. On Windows, open the "Developer Command Prompt for VS 2022" and run the commands from there.
-
-**Build fails on raylib download**
-This can happen if Git isn't installed or you're behind a firewall. Make sure `git` is accessible from your terminal.
-
-**`cmake -B build` gives a version error**
-Update CMake to 3.16 or newer from https://cmake.org/download/.
