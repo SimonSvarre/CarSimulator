@@ -27,6 +27,7 @@ namespace Simulation {
         Vector2 getLateralForce(const Physics::Rigidbody& chassis, float Fz) const;
         Vector2 getRollingResistance() const;
         Vector2 getBrakeForce() const;
+        float getSteeringAngle() const {return m_steerAngle;}
 
         Vector2 getLocalPosition() const {return m_localPosition;};
         float getWorldRotation(const Physics::Rigidbody* chassis) const {return RAD2DEG*(chassis->getState().rotation + m_steerAngle);};

@@ -21,6 +21,8 @@ inline Vector2 angularToLinear(float angularVel, Vector2 offset) {
     return { -angularVel * offset.y, angularVel * offset.x };
 }
 
+    
+
 namespace MomentOfInertia {
 
     /// Solid rectangle rotating around its center

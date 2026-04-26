@@ -12,7 +12,7 @@ namespace Rendering {
 
     class DebugDraw {
     public:
-        bool enabled {true};
+        bool enabled {false};
 
         void drawAABB(const Physics::Rigidbody* body) const;
         void drawVelocity(const Physics::State& state) const;
