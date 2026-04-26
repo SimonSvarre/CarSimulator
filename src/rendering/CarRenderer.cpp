@@ -29,7 +29,6 @@ namespace  Rendering {
         {
             Vector2 pos {Vector2Rotate(wheel.getLocalPosition(), state.rotation) + state.position};
             float rotation {wheel.getSteeringAngle() + state.rotation };
-            std::cout << RAD2DEG*wheel.getSteeringAngle() << std::endl;
             DrawRectanglePro(
             { pos.x, pos.y, m_wheelHeight, m_wheelWidth },
             { m_wheelHeight/2.0f, m_wheelWidth/2.0f },
