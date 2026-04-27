@@ -7,6 +7,7 @@
 #include "rendering/RectangleRenderer.h"
 #include "simulation/car/Car.h"
 #include "simulation/shapes/Rectangle.h"
+#include "World/World.h"
 
 int main() {
     // Initialization
@@ -41,6 +42,8 @@ int main() {
     Physics::Surface asphaltSurface {asphaltMaterial, std::make_unique<Physics::CollisionShapeRectangle>(SCREENWIDTH, SCREENHEIGHT)};
     asphaltSurface.getShapeMutable()->setCenter({SCREENWIDTH/2.0f, SCREENHEIGHT/2.0f});
     physicsWorld.addSurface(&asphaltSurface);
+
+    World::World world {&physicsWorld,{SCREENWIDTH, SCREENHEIGHT}};
     //--------------------------------------------------------------------------------------
 
     // Main game loop
@@ -87,6 +90,7 @@ int main() {
 
         ClearBackground(RAYWHITE);
 
+        world.draw();
         rectangleRenderer.draw(testKinematicBox.getPhysicsState());
         testRectRenderer.draw(testStaticRect.getPhysicsState());
 
