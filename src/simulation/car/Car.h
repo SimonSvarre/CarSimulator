@@ -47,13 +47,17 @@ namespace Simulation {
         Physics::Rigidbody m_body;
         std::array<Wheel, 4> m_wheels {}; ///< Array with wheels of the car where lf = index 0, rf = 1, lr = 2, rr = 3
 
-        float m_engineForce = 50000.f;   /// Newtons
-        float m_turnTorque  = 1500.f;   /// Newton-metres
-        float m_axleOffset  = 20.f;     /// pixels from center to rear axle
+        float m_engineForce = 50000.f;   ///< Newtons
+        float m_turnTorque  = 1500.f;   ///< Newton-metres
+        float m_axleOffset  = 20.f;     ///< pixels from center to rear axle
 
-        float m_maxSteeringAngle {35.0f}; /// Max angle car can steer wheels in degrees
+        float m_maxSteeringAngle {35.0f}; ///< Max angle car can steer wheels in degrees
+        float m_steeringSpeed {8.0f}; ///< How fast the wheels are turned to steering angle
 
-        float m_throttle = 0.0f; /// How much throttle is being applied from 0 to 1.
+        float m_throttle = 0.0f; ///< How much throttle is being applied from 0 to 1.
+        float m_steeringAngle = 0.0f; ///< Current steering angle. Wheels will lerping towards this value
+
+        void turnWheels(float dt, std::array<Wheel, 4>::value_type& wheel) const;
     };
 }
 

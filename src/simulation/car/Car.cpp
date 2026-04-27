@@ -7,8 +7,24 @@
 #include <iostream>
 
 namespace Simulation {
+    void Car::turnWheels(const float dt, std::array<Wheel, 4>::value_type& wheel) const
+    {
+        float currentAngle {wheel.getSteeringAngle()};
+        float targetAngle {m_steeringAngle * DEG2RAD};
+        wheel.setSteerAngle(Lerp(currentAngle, targetAngle, dt *m_steeringSpeed));
+    }
+
     void Car::step(float dt)
     {
+        for (auto& wheel : m_wheels)
+        {
+
+            if (wheel.isSteerable())
+            {
+                turnWheels(dt, wheel);
+            }
+        }
+
         for (auto& wheel : m_wheels)
         {
             Vector2 wheelWorldPos {m_body.getWorldPoint(wheel.getLocalPosition())};
@@ -42,13 +58,7 @@ namespace Simulation {
         {
             steeringAngle = -m_maxSteeringAngle;
         }
-        for (auto& wheel : m_wheels)
-        {
-            if (wheel.isSteerable())
-            {
-                wheel.setSteerAngle(steeringAngle * DEG2RAD);
-            }
-        }
+        m_steeringAngle = steeringAngle;
     }
 
     std::array<Vector2, 4> Car::getLateralForces()
